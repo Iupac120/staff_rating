@@ -1,45 +1,46 @@
 const {DataTypes} = require("sequelize");
 const sequelize = require("../config/database.js");
-const User = sequelize.define("User",{
-    userId:{
+const Employee = sequelize.define("Employee",{
+    EmployeeId:{
         type:DataTypes.UUID,
         defaultValue:DataTypes.UUIDVA,
         primaryKey:true
     },
-    fullName:{
+    employeeCode:{
+        type:DataTypes.STRING,
+        unique: true
+    },
+    firstName:{
         type:DataTypes.STRING,
         allowNull:false
     },
-    email:{
-        type:DataTypes.STRING,
-        unique:true,
-        allowNull:false
-    },
-    password:{
+    lastName:{
         type:DataTypes.STRING,
         allowNull:false
     },
-    role:{
+    phoneNumer:DataTypes.STRING,
+    gender:{
         type:DataTypes.ENUM(
-            "SUPER_ADMIN",
-            "HR_MANAGER",
-            "MANAGER",
-            "EMPLOYEE"
-        ),
-        defaultValue:"EMPLOYEE"
+            "MALE",
+            "FEMALE"
+        )
     },
+    designation:DataTypes.STRING,
+    employmentDate:DataTypes.DATEONLY,
     status:{
         type:DataTypes.ENUM(
             "ACTIVE",
-            "INACTIVE"
+            "RETIRED",
+            "TERMINATED",
+            "SUSPENDED"
         ),
         defaultValue:"ACTIVE"
     }
 },
-    {
-        tableName:"users",
+{
+        tableName:"employees",
         paranoid:true
     }
-);
+)
 
-module.exports = User
+module.exports = Employee
