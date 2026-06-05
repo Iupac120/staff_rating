@@ -3,7 +3,7 @@ const sequelize = require("../config/database.js");
 const User = sequelize.define("User",{
     userId:{
         type:DataTypes.UUID,
-        defaultValue:DataTypes.UUIDVA,
+        defaultValue:DataTypes.UUIDV4,
         primaryKey:true
     },
     fullName:{
@@ -18,6 +18,12 @@ const User = sequelize.define("User",{
     password:{
         type:DataTypes.STRING,
         allowNull:false
+    },
+    resetPasswordToken:{
+        type:DataTypes.STRING
+    },
+    resetPasswordExpires:{
+        type:DataTypes.DATE
     },
     role:{
         type:DataTypes.ENUM(
