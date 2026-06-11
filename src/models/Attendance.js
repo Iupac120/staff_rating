@@ -3,7 +3,7 @@ const sequelize =  require("../config/database")
 const Attendance =  sequelize.define("Attendance",{
     attendId:{
         type:DataTypes.UUID,
-        defaultValue:DataTypes.UUIDVA,
+        defaultValue:DataTypes.UUIDV4,
         primaryKey:true
     },
     attendanceDate:{

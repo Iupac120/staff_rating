@@ -15,80 +15,75 @@ const WorkReport = require("./WorkReport")
 
 //department
 Department.hasMany(Employee);
-Employee.belongTo(Department)
+Employee.belongsTo(Department)
 Department.hasMany(KPI)
-KPI.belongTo(Department)
+KPI.belongsTo(Department)
 //user-employee
 User.hasOne(Employee)
-Employee.belongTo(User)
-Employee.belongTo(Employee,{
-    as:supervisor,
-    foreignKey:supervisorId
-})
-Employee.hasMany(Employee,{
-    as:subordinates,
-    foreignKey:supervisorId
-})
+Employee.belongsTo(User)
+
 
 //kpi target
 Employee.hasMany(KPITarget)
-KPITarget.belongTo(Employee)
+KPITarget.belongsTo(Employee)
 
 KPI.hasMany(KPITarget)
-KPITarget.belongTo(KPI)
+KPITarget.belongsTo(KPI)
 
 //task
 Employee.hasMany(Task)
-Task.belongTo(Employee)
+Task.belongsTo(Employee)
 
 //Attendance
 Employee.hasMany(Attendance)
-Attendance.belongTo(Employee)
+Attendance.belongsTo(Employee)
 
 //Work report
 Employee.hasMany(WorkReport)
-WorkReport.belongTo(Employee)
+WorkReport.belongsTo(Employee)
 
 //Evaluation
 Employee.hasMany(Evaluation)
-Evaluation.belongTo(Employee)
+Evaluation.belongsTo(Employee)
 User.hasMany(Evaluation,{
-    foreignKey:evaluatorId
+    as:"evaluationsGiven",
+    foreignKey:"evaluatorId"
 })
-Evaluation.belongTo(User,{
-    foreignKey:EvaluateId
+Evaluation.belongsTo(User,{
+    as:"evaluator",
+    foreignKey:"evaluatorId"
 })
 
 //peer review
 Employee.hasMany(PeerReview)
-PeerReview.belongTo(Employee)
+PeerReview.belongsTo(Employee)
 
 User.hasMany(PeerReview,{
-    foreignKey:reviewId
+    foreignKey:"reviewId"
 })
-PeerReview.belongTo(User,{
-    foreignKey:reviewId
+PeerReview.belongsTo(User,{
+    foreignKey:"reviewId"
 })
 
 
 //Training
 Employee.hasMany(Training)
-Training.belongTo(Employee)
+Training.belongsTo(Employee)
 
 //monthly performance
 Employee.hasMany(PerformanceScore)
-PerformanceScore.belongTo(Employee)
+PerformanceScore.belongsTo(Employee)
 
 //Appraisal 
 Employee.hasMany(AnnualAppraisal)
-AnnualAppraisal.belongTo(Employee)
+AnnualAppraisal.belongsTo(Employee)
 
 //Notification
 User.hasMany(Notification)
-Notification.belongTo(User)
+Notification.belongsTo(User)
 
 module.exports = {
-    annual_appraisals,
+    AnnualAppraisal,
     Attendance,
     Department,
     Employee,

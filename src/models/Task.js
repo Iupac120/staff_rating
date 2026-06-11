@@ -3,7 +3,7 @@ const sequelize = require("../config/database")
 const Task = sequelize.define("Task",{
     taskId:{
         type:DataTypes.UUID,
-        defaultValue:DataTypes.UUIDVA,
+        defaultValue:DataTypes.UUIDV4,
         primaryKey:true
     },
     title:{
@@ -16,7 +16,7 @@ const Task = sequelize.define("Task",{
             "LOW",
             "MEDIUM",
             "HIGH"
-        )
+        ),
         defaultValue:"MEDIUM"
     },
     status:{
@@ -34,3 +34,5 @@ const Task = sequelize.define("Task",{
         tableName:"tasks"
     }
 )
+
+module.exports = Task

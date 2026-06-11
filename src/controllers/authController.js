@@ -1,5 +1,5 @@
 const bcrypt = require('bcryptjs');
-const { User } = require('../models');
+const { User } = require('../models/User');
 const generateToken = require('../helpers/generateToken');
 
 /*register user*/
@@ -98,8 +98,9 @@ const login = async (req,res,next)=>{
 
 
 //current user
-const useId =req.user.id
+
 const currentUserProfile = async(req,res,next) =>{
+    const useId =req.user.id
     try{
         const user = awaitUser.findByPk(userId);
         res.status(200).json({

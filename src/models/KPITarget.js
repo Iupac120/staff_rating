@@ -20,7 +20,7 @@ const KPITarget = sequelize.define("KPITarget",{
     }
 },
 {
-        tableName:kpi_target
+        tableName:"kpiTargets"
     }
 )
 
