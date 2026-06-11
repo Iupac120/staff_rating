@@ -1,6 +1,9 @@
 const bcrypt = require('bcryptjs');
-const { User } = require('../models/User');
+const { User } = require('../models');
 const generateToken = require('../helpers/generateToken');
+const crypto = require("crypto")
+const sendEmail = require("../helpers/sendEmail")
+
 
 /*register user*/
 const register = async (req, res, next) => {
@@ -35,7 +38,7 @@ const register = async (req, res, next) => {
         });
 
         const token = generateToken(createUser);
-
+        sendEmail(createUser.email,"Welcome to APERFORM","Welcome to APERFORM!");
         return res.status(201).json({
             success: true,
             message: 'Account created successfully',
@@ -63,7 +66,7 @@ const login = async (req,res,next)=>{
  try{
        const {email,password} = req.body;
     if(!email || !password){
-        return res.staus(400).json({
+        return res.status(400).json({
             success:false,
             message:"email and password are required"
         })
@@ -72,8 +75,8 @@ const login = async (req,res,next)=>{
         where:{email}
     })
     if(!user){
-        return res.staus(400).json({
-            successfalse,
+        return res.status(400).json({
+            success:false,
             message:"Email does not exist"
         })
     }
@@ -84,7 +87,9 @@ const login = async (req,res,next)=>{
             message:"Invalid credentials"
         })
     }
-    const token = generateToken(user)
+    const token = generateToken({
+        userId:user.userId,
+        role:user.role})
     return res.status(200).json({
         success:true,
         message:"Login successful",
@@ -100,7 +105,7 @@ const login = async (req,res,next)=>{
 //current user
 
 const currentUserProfile = async(req,res,next) =>{
-    const useId =req.user.id
+    const userId =req.user.id
     try{
         const user = awaitUser.findByPk(userId);
         res.status(200).json({
@@ -180,10 +185,15 @@ const resetPassword = async(req,res,next)=>{
     try{
         const {token} =req.params
         const {password} = req.body
-        const user  = await User.findOne({
-            where:{resetPasswordToken:token}
-        })
-        if(!user || user.resetPasswordExpires < Date.now()){
+       // const user  = await User.findOne({
+        //    where:{resetPasswordToken:token}
+       // })
+        const user = await User.findOne({
+            where: {
+                 resetPasswordToken: token
+                }
+            })
+        if(!user || !user.resetPasswordExpires || user.resetPasswordExpires < Date.now()){
             return res.status(400).json({
                 success:false,
                 message:"Invalid or expired token"
